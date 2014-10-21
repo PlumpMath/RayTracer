@@ -1,0 +1,11 @@
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.so
+*.png
+
+
+
+ReadMe.txt
+Debug/
+Release/
