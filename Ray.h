@@ -20,11 +20,16 @@ protected:
 	float t_max;
 public:
 
+	Ray():pos(),dir(0,0,0),t_min(0), t_max(FLT_MAX)
+	{
+	}
+
 	Ray(const Point & position, const Vector3f & direction)
 		:pos(position),dir(direction)
 		,t_min(0), t_max(FLT_MAX)
 	{
 		//? direction normalize?
+		dir.normalize();
 	}
 
 	Point getStartPosition()const{return pos;}
@@ -37,5 +42,10 @@ public:
 			return Point(pos + t * dir);
 		}
 		//cout<<"class Ray: getPosition exceptions!";
+	}
+
+	bool isValidT(float t)const
+	{
+		return (t>t_min && t<t_max);
 	}
 };

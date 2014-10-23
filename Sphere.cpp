@@ -33,7 +33,8 @@ bool Sphere::intersect(const Ray & ray, float & t_hit, LocalGeo& local)
 			Point p(ray.getPosition(t_hit));
 			local = LocalGeo(p, Normal(p - c));
 
-			return true;
+			//return true;
+			return ray.isValidT(t_hit);
 		}
 		//inside
 		/*

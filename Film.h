@@ -25,7 +25,9 @@ public:
 
 	unsigned char colorFloat2Byte(float c)
 	{
-		return (unsigned char)(c * 255);
+		float tmp = c *255;
+		tmp = (tmp>255) ? 255 : tmp;
+		return (unsigned char)tmp;
 	}
 
 	unsigned char getColorAt(int row, int column, int i);

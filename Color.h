@@ -39,6 +39,15 @@ public:
 		(*this)(2) = c(2);
 	}
 
+	Color componentMulti(const Color & c)
+	{
+		return Color(r()*c.r(), g()*c.g(), b()*c.b());
+	}
+
+	bool isPositive()const
+	{
+		return (r()>0) && (g()>0) && (b()>0);
+	}
 	/*
 	void operator += (const Color & c)
 	{

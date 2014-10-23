@@ -1,7 +1,8 @@
 #include "GeometricPrimitive.h"
 
 
-GeometricPrimitive::GeometricPrimitive(Shape* s):shape(s)
+GeometricPrimitive::GeometricPrimitive(Shape* s,const Material & mat)
+	:shape(s),material(mat)
 {
 }
 
@@ -38,7 +39,7 @@ bool GeometricPrimitive::intersectP(Ray& ray)
 
 
 
-void GeometricPrimitive::getBRDF(LocalGeo& local, BRDF* brdf)
+void GeometricPrimitive::getBRDF(LocalGeo& local, BRDF & brdf)
 {
-	//TODO
+	material.getBRDF(local,brdf);
 }

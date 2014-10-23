@@ -10,11 +10,11 @@ using namespace std;
 
 class Camera
 {
-protected:
+public:
 	Point pos;	//camera(eye) position
 
 
-public:
+
 	Camera(const Vector3f & p):pos(p)
 	{
 	}

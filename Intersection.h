@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Ray.h"
+#include "BRDF.h"
 #include "LocalGeo.h"
 
 class Primitive;
@@ -14,4 +16,6 @@ public:
 	{
 		primitive = NULL;
 	}
+
+	void getBRDF(BRDF & brdf);
 };

@@ -19,4 +19,12 @@ public:
 		:pos(position),n(normal)
 	{
 	}
+
+	Vector3f getReflectDirection(Vector3f in_light)
+	{
+		//in_light should have been normalized
+		//in_light should point to light source
+		//( n_normal*(2*n_light.dot(n_normal)) ) - n_light;
+		return  (n * ( 2 * in_light.dot(n) ) - in_light);
+	}
 };
