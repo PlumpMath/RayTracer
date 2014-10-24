@@ -7,7 +7,7 @@ Ray RayTracer::createReflectRay(LocalGeo & local,Ray & in_ray)
 {
 	Vector3f n_reflect_dir = local.getReflectDirection(-in_ray.getDirection());
 
-	return Ray(local.pos,n_reflect_dir);
+	return Ray(Point(local.pos + 0.0001 * n_reflect_dir) ,n_reflect_dir);
 }
 
 
@@ -43,6 +43,9 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 
 		vector<Light*>::iterator iter;
 
+
+		
+
 		for (iter = vec_light.begin();iter != vec_light.end();++iter)
 		{
 			Ray l_ray ( (*iter)->generateLightRay(in.local) );
@@ -53,15 +56,22 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 			{
 				//no obstacle block
 				//TODO,need to ask scene for camera position
+				
 				Vector3f view = scene.getViewVector(in.local);	
 				color += brdf.shading(in.local, l_ray, (*iter)->getLightColor(0),view );
 			}
 			else
 			{
-				//only ambient
+				//this light doesn't hit it directly
+				//shade ambient only
 				color += brdf.shadingOnlyAmbient((*iter)->getLightColor(0));
 			}
 		}
+
+		
+
+
+
 
 
 		//mirror reflection
@@ -74,4 +84,4 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 			color += brdf.kr.componentMulti(tmp_color);
 		}
 		
-	}
+}

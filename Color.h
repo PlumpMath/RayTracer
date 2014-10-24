@@ -46,7 +46,7 @@ public:
 
 	bool isPositive()const
 	{
-		return (r()>0) && (g()>0) && (b()>0);
+		return (r()>0.001) && (g()>0.001) && (b()>0.001);
 	}
 	/*
 	void operator += (const Color & c)

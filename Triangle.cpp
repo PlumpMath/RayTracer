@@ -44,8 +44,17 @@ bool Triangle::intersect(const Ray& ray, float & t_hit, LocalGeo& local)
 			&& beta >= 0.0 && gama >= 0.0
 			&& beta + gama <= 1.0)
 		{
-			local.n = normal;
-			local.pos = ray.getPosition(t_hit);
+			if(normal.dot(-d) > 0)
+			{
+				local.n = normal;
+			}
+			else
+			{
+				local.n = Normal(- normal);
+			}
+			
+			//local.pos = ray.getPosition(t_hit);
+			local.pos =(Point)( a + beta*x + gama*y );
 
 			return true;
 		}

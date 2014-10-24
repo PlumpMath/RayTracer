@@ -13,7 +13,7 @@ Ray PointLight::generateLightRay(LocalGeo& local)
 	Vector3f dir = pos - local.pos;	//point to the light source
 
 	//?epsilon
-	Point p = local.pos + 0.01 * dir;
+	Point p = local.pos + 0.0001 * dir;
 
 	return Ray(p,dir);
 }
@@ -21,6 +21,9 @@ Ray PointLight::generateLightRay(LocalGeo& local)
 
 Color PointLight::getLightColor(float t)
 {
+	//TODO
 	// fall out?
-	return (1/(t+1)) * intensity;
+	//return (1/(t+1)) * intensity;
+
+	return intensity;
 }

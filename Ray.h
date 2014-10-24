@@ -42,6 +42,8 @@ public:
 			return Point(pos + t * dir);
 		}
 		//cout<<"class Ray: getPosition exceptions!";
+		abort();
+		return Point(0,0,0);
 	}
 
 	bool isValidT(float t)const
