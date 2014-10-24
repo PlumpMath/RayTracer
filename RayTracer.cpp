@@ -57,7 +57,9 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 				//no obstacle block
 				//TODO,need to ask scene for camera position
 				
-				Vector3f view = scene.getViewVector(in.local);	
+				//TODO the view has some problem
+				//Vector3f view = scene.getViewVector(in.local);
+				Vector3f view = - ray.getDirection();
 				color += brdf.shading(in.local, l_ray, (*iter)->getLightColor(0),view );
 			}
 			else
@@ -78,6 +80,7 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 		if(brdf.kr.isPositive())
 		{
 			Ray reflectRay = createReflectRay(in.local,ray);
+
 
 			Color tmp_color;
 			trace(scene,reflectRay,primitive,tmp_color,depth+1);
