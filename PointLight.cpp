@@ -1,7 +1,7 @@
 #include "PointLight.h"
 
-PointLight::PointLight(const Point& point,const Color& color)
-	:pos(point),intensity(color)
+PointLight::PointLight(const Point& point,const Color& color,int falloffType = 0)
+	:pos(point),intensity(color),falloff_type(falloffType)
 {
 }
 
@@ -24,6 +24,11 @@ Color PointLight::getLightColor(float t)
 	//TODO
 	// fall out?
 	//return (1/(t+1)) * intensity;
-
-	return intensity;
+	switch(falloff_type)
+	{
+	case 0:return intensity;
+	case 1:return (1/(t+1)) * intensity;
+	case 2:return (1/(t+1)*(t+1)) * intensity;
+	default: abort();
+	}
 }

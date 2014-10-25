@@ -7,6 +7,8 @@
 
 
 #include "Light.h"
+#include "AmbientLight.h"
+
 #include "Camera.h"
 #include "Sampler.h"
 #include "RayTracer.h"
@@ -28,6 +30,7 @@ protected:
 	Film film;
 
 	vector<Light*> vec_light;
+	vector<AmbientLight*> vec_ambient_light;
 
 	Primitive * primitive;
 
@@ -39,9 +42,10 @@ public:
 
 	void addLight(Light * light);
 
-	Vector3f getViewVector(LocalGeo & local);
+	//Vector3f getViewVector(LocalGeo & local);
 
 	vector<Light*>& getVecLight(){return vec_light;}
+	vector<AmbientLight*>& getAmbientLight(){return vec_ambient_light;}
 	//void LoopLight(LocalGeo& local);
 
 	void render(const char * filename);

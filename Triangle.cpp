@@ -44,6 +44,9 @@ bool Triangle::intersect(const Ray& ray, float & t_hit, LocalGeo& local)
 			&& beta >= 0.0 && gama >= 0.0
 			&& beta + gama <= 1.0)
 		{
+
+			//note: making sure the triangle will be seen
+			//if using obj file, this should be deleted
 			if(normal.dot(-d) > 0)
 			{
 				local.n = normal;

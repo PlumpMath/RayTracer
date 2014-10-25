@@ -30,21 +30,31 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 			return;
 		}
 
-		//there's a hit
+
+		//There's a hit
 		//test
 		//color.set(0,1,0);
 
-
 		BRDF brdf;
 		in.getBRDF(brdf);
+
+
+		{
+			//ambient light source
+			vector<AmbientLight*>& vec_ambient_light = scene.getAmbientLight();
+			vector<AmbientLight*>::iterator iter;
+			for(iter = vec_ambient_light.begin();iter != vec_ambient_light.end(); ++iter)
+			{
+				color += brdf.shadingOnlyAmbient((*iter)->intensity);
+			}
+		}
+
+
 
 		//loop through all light source (shoot shadow rays)
 		vector<Light*>& vec_light = scene.getVecLight();
 
 		vector<Light*>::iterator iter;
-
-
-		
 
 		for (iter = vec_light.begin();iter != vec_light.end();++iter)
 		{

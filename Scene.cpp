@@ -43,10 +43,10 @@ void Scene::addLight(Light * light)
 //	}
 //}
 
-Vector3f Scene::getViewVector(LocalGeo& local)
-{
-	return (camera.pos - local.pos).normalized();
-}
+//Vector3f Scene::getViewVector(LocalGeo& local)
+//{
+//	return (camera.pos - local.pos).normalized();
+//}
 
 
 
