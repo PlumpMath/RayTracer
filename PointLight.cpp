@@ -13,7 +13,7 @@ Ray PointLight::generateLightRay(LocalGeo& local)
 	Vector3f dir = pos - local.pos;	//point to the light source
 
 	//?epsilon
-	Point p = local.pos + 0.0001 * dir;
+	Point p ( local.pos + 0.0001 * dir);
 
 	return Ray(p,dir);
 }
@@ -27,8 +27,8 @@ Color PointLight::getLightColor(float t)
 	switch(falloff_type)
 	{
 	case 0:return intensity;
-	case 1:return (1/(t+1)) * intensity;
-	case 2:return (1/(t+1)*(t+1)) * intensity;
+	case 1:return Color ((1/(t+1)) * intensity);
+	case 2:return Color ((1/(t+1)*(t+1)) * intensity);
 	default: abort();
 	}
 }

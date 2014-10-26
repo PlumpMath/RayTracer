@@ -62,9 +62,9 @@ void Scene::render(const char * filename)
 	{
 		//getSample::sample_pos has released
 		Color color;
-		Ray * ray = & camera.generateRay(sample_pos);	//?
+		Ray ray ( camera.generateRay(sample_pos) );	//?
 		
-		rayTracer.trace(*this, *ray, primitive,color,0);
+		rayTracer.trace(*this, ray, primitive,color,0);
 
 		film.commit(row,column,color);
 

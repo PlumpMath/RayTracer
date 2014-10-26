@@ -70,13 +70,15 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 				//TODO the view has some problem
 				//Vector3f view = scene.getViewVector(in.local);
 				Vector3f view = - ray.getDirection();
-				color += brdf.shading(in.local, l_ray, (*iter)->getLightColor(0),view );
+				Color& tmp_light_color = (*iter)->getLightColor(0);
+				color += brdf.shading(in.local, l_ray, tmp_light_color,view );
 			}
 			else
 			{
 				//this light doesn't hit it directly
 				//shade ambient only
-				color += brdf.shadingOnlyAmbient((*iter)->getLightColor(0));
+				Color& tmp_light_color = (*iter)->getLightColor(0);
+				color += brdf.shadingOnlyAmbient(tmp_light_color);
 			}
 		}
 
