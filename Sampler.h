@@ -74,7 +74,7 @@ public:
 
 	
 	//!! point better be &
-	bool getSample(Vector3f* & point, int &r, int &c)
+	bool getSample(Vector3f & point, int &r, int &c)
 	{
 		
 		
@@ -88,7 +88,8 @@ public:
 			}
 		}
 
-		point = new Vector3f(getPoint(x,y));
+		//point = new Vector3f(getPoint(x,y));
+		point = Vector3f(getPoint(x,y));
 		r = num_pixels_height - 1 - y;
 		c = x;
 

@@ -7,6 +7,7 @@
 using namespace Eigen;
 using namespace std;
 
+#define MY_FLOAT_MAX 3.4e+38F
 
 class Ray
 {
@@ -20,13 +21,13 @@ protected:
 	float t_max;
 public:
 
-	Ray():pos(),dir(0,0,0),t_min(0), t_max(FLT_MAX)
+	Ray():pos(),dir(0,0,0),t_min(0), t_max(MY_FLOAT_MAX)
 	{
 	}
 
 	Ray(const Point & position, const Vector3f & direction)
 		:pos(position),dir(direction)
-		,t_min(0), t_max(FLT_MAX)
+		,t_min(0), t_max(MY_FLOAT_MAX)
 	{
 		//? direction normalize?
 		dir.normalize();

@@ -52,8 +52,8 @@ void Scene::addLight(Light * light)
 
 void Scene::render(const char * filename)
 {
-	Vector3f * sample_pos = NULL;
-	
+	//Vector3f * sample_pos = NULL;
+	Vector3f sample_pos;
 	
 	//bool is_sample_end = ! sampler.getSample(sample_pos);
 
@@ -62,7 +62,7 @@ void Scene::render(const char * filename)
 	{
 		//getSample::sample_pos has released
 		Color color;
-		Ray * ray = & camera.generateRay(*sample_pos);	//?
+		Ray * ray = & camera.generateRay(sample_pos);	//?
 		
 		rayTracer.trace(*this, *ray, primitive,color,0);
 
@@ -74,6 +74,6 @@ void Scene::render(const char * filename)
 	film.outputPNG(filename);
 
 
-	delete sample_pos;
+	//delete sample_pos;
 	//delete ray;
 }

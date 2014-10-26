@@ -18,7 +18,7 @@ protected:
 	//TODO
 
 	//test, one sample for each pixel
-	vector<vector<Color>> image_bucket;
+	vector < vector<Color> > image_bucket;
 
 public:
 	Film(int w = 100,int h = 60);

@@ -32,7 +32,7 @@ bool AggregatePrimitive::intersect(Ray& ray, float& t_hit, Intersection & in)
 	bool is_hit = false;
 
 	vector<Primitive*>::iterator iter;
-	t_hit = FLT_MAX;
+	t_hit = MY_FLOAT_MAX;
 	for (iter = vec_primitive.begin();iter != vec_primitive.end(); ++iter)
 	{
 		float this_t;
