@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 
 #include "Eigen/Dense"
@@ -34,13 +35,17 @@ protected:
 
 	Primitive * primitive;
 
+	float pixel_length;
 public:
 	//Scene(const Camera & c, const Sampler & s, const RayTracer & r, const Film & f, Primitive * p);
+	Scene(string & filename);
 	Scene(const Camera & c, const Sampler & s, const RayTracer & r, const Film & f, Primitive * p);
 	~Scene();
 
 
 	void addLight(Light * light);
+	void addAmbientLight(AmbientLight * al);
+	
 
 	//Vector3f getViewVector(LocalGeo & local);
 
@@ -49,4 +54,8 @@ public:
 	//void LoopLight(LocalGeo& local);
 
 	void render(const char * filename);
+
+
+
+	void readFile(string & filename);
 };

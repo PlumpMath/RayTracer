@@ -6,6 +6,7 @@ DirectionalLight::DirectionalLight(const Vector3f& direction,const Color& color)
 }
 
 
+//this function is generating a shadow light ray
 Ray DirectionalLight::generateLightRay(LocalGeo& local)
 {
 

@@ -4,6 +4,7 @@
 GeometricPrimitive::GeometricPrimitive(Shape* s,const Material & mat)
 	:shape(s),material(mat)
 {
+	initBoundingBox();
 }
 
 GeometricPrimitive::~GeometricPrimitive()
@@ -42,4 +43,19 @@ bool GeometricPrimitive::intersectP(Ray& ray)
 void GeometricPrimitive::getBRDF(LocalGeo& local, BRDF & brdf)
 {
 	material.getBRDF(local,brdf);
+}
+
+
+void GeometricPrimitive::initBoundingBox()
+{
+	//TODO
+	//store boundingbox
+	boundingBox = shape->getBoundingBox();
+}
+
+
+
+BoundingBox& GeometricPrimitive::getBoundingBox()
+{
+	return boundingBox;
 }

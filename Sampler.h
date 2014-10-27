@@ -44,6 +44,11 @@ protected:
 
 public:
 
+	Sampler()
+	{
+	}
+
+
 	Sampler(const Vector3f & ul, const Vector3f & ur, const Vector3f & lr, const Vector3f & ll, float pixelLength = 1.0)
 		:ul_pos(ul),ur_pos(ur),lr_pos(lr),ll_pos(ll)
 		,pixel_length(pixelLength)

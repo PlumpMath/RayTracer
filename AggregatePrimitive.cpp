@@ -77,3 +77,12 @@ void AggregatePrimitive::getBRDF(LocalGeo& local, BRDF& brdf)
 	cout<<"error: AggregatePrimitive shouldn't be called ever\n";
 	abort();
 }
+
+
+BoundingBox& AggregatePrimitive::getBoundingBox()
+{
+	//this shouldn't be called
+	abort();
+	BoundingBox b;
+	return b;
+}

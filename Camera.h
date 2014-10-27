@@ -14,6 +14,14 @@ public:
 	Point pos;	//camera(eye) position
 
 
+	Camera()
+	{
+	}
+
+	Camera(float x,float y,float z)
+		:pos(x,y,z)
+	{
+	}
 
 	Camera(const Vector3f & p):pos(p)
 	{

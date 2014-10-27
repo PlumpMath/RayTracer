@@ -21,4 +21,6 @@ public:
 	Triangle(const Point & aa, const Point & bb, const Point & cc);
 	virtual bool intersect(const Ray& ray, float & t_hit, LocalGeo& local);
 	virtual bool intersectP(const Ray& ray);
+
+	virtual BoundingBox getBoundingBox();
 };

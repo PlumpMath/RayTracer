@@ -75,3 +75,37 @@ bool Triangle::intersectP(const Ray& ray)
 	float tmp_f;
 	return intersect(ray,tmp_f,tmp);
 }
+
+
+
+
+BoundingBox Triangle::getBoundingBox()
+{
+	float minx = a(0);
+	float miny = a(1);
+	float minz = a(2);
+
+	float maxx = a(0);
+	float maxy = a(1);
+	float maxz = a(2);
+
+
+	minx = min(minx,b(0));
+	miny = min(miny,b(1));
+	minz = min(minz,b(2));
+	minx = min(minx,c(0));
+	miny = min(miny,c(1));
+	minz = min(minz,c(2));
+
+	maxx = max(maxx,b(0));
+	maxy = max(maxy,b(1));
+	maxz = max(maxz,b(2));
+	maxx = max(maxx,c(0));
+	maxy = max(maxy,c(1));
+	maxz = max(maxz,c(2));
+
+
+	Point min_pos(minx,miny,minz);
+	Point max_pox(maxx,maxy,maxz);
+	return BoundingBox(min_pos,max_pox);
+}

@@ -8,6 +8,12 @@ class Material
 protected:
 	BRDF constantBRDF;
 public:
+
+	Material()
+	{
+		//default, all black
+	}
+
 	Material(const BRDF & brdf):constantBRDF(brdf)
 	{
 	}

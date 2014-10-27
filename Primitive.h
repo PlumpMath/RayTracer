@@ -6,6 +6,7 @@
 #include "BRDF.h"
 
 #include "Intersection.h"
+#include "BoundingBox.h"
 
 using namespace std;
 
@@ -16,4 +17,6 @@ public:
 	virtual bool intersect(Ray& ray, float& t_hit, Intersection & in) = 0;
     virtual bool intersectP(Ray& ray) = 0;
     virtual void getBRDF(LocalGeo& local, BRDF& brdf) = 0;
+
+	virtual BoundingBox& getBoundingBox() = 0;
 };

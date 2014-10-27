@@ -2,7 +2,7 @@
 #include <math.h>
 #include <iostream>
 
-#define FLOAT_EPSILON 0.001
+#define FLOAT_EPSILON 0.00001
 
 
 Sphere::Sphere(const Point & center, float radius):c(center),r(radius)
@@ -77,4 +77,13 @@ bool Sphere::intersectP(const Ray& ray)
 	}
 
 	return false;
+}
+
+
+
+BoundingBox Sphere::getBoundingBox()
+{
+	Vector3f offset(r,r,r);
+	Point min_pos(c - offset);
+	return BoundingBox(min_pos,(2*offset));
 }

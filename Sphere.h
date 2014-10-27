@@ -18,4 +18,6 @@ public:
 	Sphere(const Point &,float);
 	virtual bool intersect(const Ray& ray, float & t_hit, LocalGeo& local);
 	virtual bool intersectP(const Ray& ray);
+
+	virtual BoundingBox getBoundingBox();
 };
