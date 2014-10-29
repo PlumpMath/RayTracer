@@ -13,7 +13,7 @@ Ray PointLight::generateLightRay(LocalGeo& local)
 	Vector3f dir = pos - local.pos;	//point to the light source
 
 	//?epsilon
-	Point p ( local.pos + 0.0001 * dir);
+	Point p ( local.pos + MY_EPSILON * dir);
 
 	return Ray(p,dir);
 }

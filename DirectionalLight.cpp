@@ -11,7 +11,7 @@ Ray DirectionalLight::generateLightRay(LocalGeo& local)
 {
 
 	//?epsilon
-	Point p ( local.pos - 0.0001 * dir);
+	Point p ( local.pos - MY_EPSILON * dir);
 
 	return Ray(p,-dir);
 }

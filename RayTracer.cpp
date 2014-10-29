@@ -7,7 +7,7 @@ Ray RayTracer::createReflectRay(LocalGeo & local,Ray & in_ray)
 {
 	Vector3f n_reflect_dir = local.getReflectDirection(-in_ray.getDirection());
 
-	return Ray(Point(local.pos + 0.0001 * n_reflect_dir) ,n_reflect_dir);
+	return Ray(Point(local.pos + MY_EPSILON * n_reflect_dir) ,n_reflect_dir);
 }
 
 

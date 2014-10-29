@@ -10,6 +10,8 @@
 #include "Light.h"
 #include "AmbientLight.h"
 
+#include "Material.h"
+
 #include "Camera.h"
 #include "Sampler.h"
 #include "RayTracer.h"
@@ -58,4 +60,6 @@ public:
 
 
 	void readFile(string & filename);
+
+	void readObjFile(string & objname, Affine3f & t, Material & mat, vector<Primitive*>& plist);
 };

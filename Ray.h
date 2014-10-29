@@ -13,6 +13,8 @@ using namespace std;
 #define MY_FLOAT_MAX (numeric_limits<float>::max())
 #define MY_FLOAT_MIN (-numeric_limits<float>::max())
 
+#define MY_EPSILON (0.001)
+
 class Ray
 {
 protected:

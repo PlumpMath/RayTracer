@@ -23,7 +23,7 @@ int main(int argc, char * argv[])
 {
 	string filename = argv[1];
 
-	if(filename == "")
+	if(filename.size() <= 0)
 	{
 		cout<<"wrong filename!\n";
 		abort();

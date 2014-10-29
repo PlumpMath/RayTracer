@@ -8,7 +8,7 @@
 using namespace std;
 
 
-#define THREDSHOLD_NUM_PRIMITIVES (2)
+#define THREDSHOLD_NUM_PRIMITIVES (3)
 
 
 class AggregatePrimitiveKDNode

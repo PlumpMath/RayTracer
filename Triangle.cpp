@@ -4,6 +4,15 @@ Triangle::Triangle(const Point & aa, const Point & bb, const Point & cc)
 	:a(aa),b(bb),c(cc)
 	,x(b-a),y(c-a)
 	,normal(x.cross(y))
+	,tt(TT_UNI_NORMAL)
+{
+}
+
+Triangle::Triangle(const Point & aa, const Point & bb, const Point & cc,const Normal & n1,const Normal & n2,const Normal & n3)
+	:a(aa),b(bb),c(cc)
+	,x(b-a),y(c-a)
+	,an(n1),bn(n2),cn(n3)
+	,tt(TT_TRI_NORMAL)
 {
 }
 
@@ -44,20 +53,33 @@ bool Triangle::intersect(const Ray& ray, float & t_hit, LocalGeo& local)
 			&& beta >= 0.0 && gama >= 0.0
 			&& beta + gama <= 1.0)
 		{
+			//local.pos = ray.getPosition(t_hit);
+			local.pos =(Point)( a + beta*x + gama*y );
+			//local.pos =(Point)( (1-beta-gama)*a + beta*b + gama*c );
 
-			//note: making sure the triangle will be seen
-			//if using obj file, this should be deleted
-			if(normal.dot(-d) > 0)
+
+			if(tt == TT_UNI_NORMAL)
 			{
-				local.n = normal;
+				//note: making sure the triangle will be seen
+				//if using obj file, this should be deleted
+				if(normal.dot(-d) > 0)
+				{
+					local.n = normal;
+				}
+				else
+				{
+					local.n = Normal(- normal);
+				}
 			}
 			else
 			{
-				local.n = Normal(- normal);
+				//TRI NORMAL
+				//TODO
+				Normal i_n((1-beta-gama)*an + beta*bn + gama*cn);
+				local.n = i_n;
 			}
 			
-			//local.pos = ray.getPosition(t_hit);
-			local.pos =(Point)( a + beta*x + gama*y );
+			
 
 			return true;
 		}
@@ -106,6 +128,6 @@ BoundingBox Triangle::getBoundingBox()
 
 
 	Point min_pos(minx,miny,minz);
-	Point max_pox(maxx,maxy,maxz);
-	return BoundingBox(min_pos,max_pox);
+	Point max_pos(maxx,maxy,maxz);
+	return BoundingBox(min_pos,max_pos);
 }

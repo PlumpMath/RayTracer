@@ -3,7 +3,8 @@
 *.vcxproj.user
 *.so
 *.png
-
+*.txt
+*.obj
 
 
 ReadMe.txt
