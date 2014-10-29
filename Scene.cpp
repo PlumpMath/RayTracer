@@ -26,7 +26,7 @@ Scene::Scene(string & filename)
 {
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//tmp
-	pixel_length = 100.0 / 1000.0;	//tmp
+	//pixel_length = 100.0 / 1000.0;	//tmp
 
 	readFile(filename);
 }
@@ -107,6 +107,8 @@ void Scene::addAmbientLight(AmbientLight * al)
 
 void Scene::render(const char * filename)
 {
+	cout<<"rendering ...\n";
+
 	//Vector3f * sample_pos = NULL;
 	Vector3f sample_pos;
 	
@@ -128,7 +130,7 @@ void Scene::render(const char * filename)
 
 	film.outputPNG(filename);
 
-
+	cout<<"image generated!\n";
 	//delete sample_pos;
 	//delete ray;
 }
@@ -172,7 +174,7 @@ void Scene::readFile(string & filename)
 				string type;
 				ss>>type;
 
-				if(type == "#")
+				if(type.at(0) == '#')
 				{
 					//comment
 
@@ -182,6 +184,13 @@ void Scene::readFile(string & filename)
 					//camera
 					float ex, ey, ez, llx, lly, llz, lrx, lry, lrz, ulx, uly, ulz, urx, ury, urz;
 					ss >> ex>> ey>> ez>> llx>> lly>> llz>> lrx>> lry>> lrz>> ulx>> uly>> ulz>> urx>> ury>> urz;
+
+					//resolution, optional
+					float pl = 0.1;		//1000*1000 with 100*100 screen
+					ss>>pl;
+					pixel_length = pl;
+
+
 
 					camera = Camera(ex,ey,ez);
 					Vector3f UL(ulx,  uly, ulz);
@@ -314,6 +323,13 @@ void Scene::readFile(string & filename)
 
 					readObjFile(objname,t,cur_mat,plist);
 				}
+				else if(type == "antialiasing")
+				{
+					int s_row;	//num_of sample	s_column = s_row
+					ss>>s_row;
+
+					sampler.enalbeAntiAliasing(s_row);
+				}
 				else
 				{
 					//warning
@@ -340,6 +356,18 @@ void Scene::readFile(string & filename)
 
 	cout<<"finish reading!\n";
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

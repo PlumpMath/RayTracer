@@ -18,7 +18,10 @@ protected:
 	//TODO
 
 	//test, one sample for each pixel
-	vector < vector<Color> > image_bucket;
+	//vector < vector<Color> > image_bucket;
+
+
+	vector < vector< vector<Color> > > image_bucket;
 
 public:
 	Film(int w = 100,int h = 60);
@@ -30,7 +33,7 @@ public:
 		return (unsigned char)tmp;
 	}
 
-	unsigned char getColorAt(int row, int column, int i);
+	Color getColorAt(int row, int column);
 
 	void commit(int row, int column, Color & color);
 

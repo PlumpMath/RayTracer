@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 
 #include "Eigen/Dense"
 
@@ -21,6 +22,10 @@ using namespace std;
 
 int main(int argc, char * argv[])
 {
+	srand( (unsigned)time( 0 )+7); 
+
+
+
 	string filename = argv[1];
 
 	if(filename.size() <= 0)
@@ -36,5 +41,5 @@ int main(int argc, char * argv[])
 	scene.render("test.png");
 
 
-
+	cout<<"\n"<<"deconstructing...\n";
 }
