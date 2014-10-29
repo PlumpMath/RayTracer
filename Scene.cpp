@@ -380,6 +380,11 @@ void Scene::readObjFile(string & objname, Affine3f & t, Material & mat, vector<P
 				//group...
 				continue;
 			}
+			else if(split[0] == "s")
+			{
+				//ignore...
+				continue;
+			}
 			else if(split[0] == "mtllib")
 			{
 				//ignore
@@ -412,99 +417,129 @@ void Scene::readObjFile(string & objname, Affine3f & t, Material & mat, vector<P
 			{
 				//texture
 				//ignore now
-			}else if (split[0] == "f"){
-				
-				char c;
-
+			}
+			else if (split[0] == "f")
+			{
 				string s;
+				int split_size = split.size();
+				int num_v = split_size - 1;
+				
+				int v[50];
+				int vt[50];
+				int vn[50];
+				vn[1] = -1;
+				
+				int i;
+				for (i = 1;i<split_size;i++)
+				{
+					std::istringstream ss(split.at(i));
+					getline(ss, s, '/');
+					v[i] = atoi(s.c_str());
+					s="-1";
 
-				std::istringstream ss1(split[1]);
-				getline(ss1, s, '/');
-				int v1 = atoi(s.c_str());
-				getline(ss1, s, '/');
-				int vt1 = atoi(s.c_str());	//texture
-				getline(ss1, s, '/');
-				int vn1 = atoi(s.c_str());
+					getline(ss, s, '/');
+					vt[i] = atoi(s.c_str());	//texture
+					s="-1";
 
-				std::istringstream ss2(split[2]);
-				getline(ss2, s, '/');
-				int v2 = atoi(s.c_str());
-				getline(ss2, s, '/');
-				int vt2 = atoi(s.c_str());	//texture
-				getline(ss2, s, '/');
-				int vn2 = atoi(s.c_str());
+					getline(ss, s, '/');
+					vn[i] = atoi(s.c_str());
+					s="-1";
+				}
 
-				std::istringstream ss3(split[3]);
-				getline(ss3, s, '/');
-				int v3 = atoi(s.c_str());
-				getline(ss3, s, '/');
-				int vt3 = atoi(s.c_str());	//texture
-				getline(ss3, s, '/');
-				int vn3 = atoi(s.c_str());
 
+				
+				for (i = 3; i <= num_v ;i++)
+				{
+					Point pa(t * (vec_Vert.at(v[1]-1)).colwise().homogeneous());
+					Point pb(t * (vec_Vert.at(v[i-1]-1)).colwise().homogeneous());
+					Point pc(t * (vec_Vert.at(v[i]-1)).colwise().homogeneous());
+
+					Primitive* p;
+
+					if(vec_Nor.size() == 0)
+					{
+						p =  new GeometricPrimitive (new Triangle(pa,pb,pc),mat);
+					}
+					else if(vn[1] == -1)
+					{
+						Normal an(t_normal * (vec_Nor.at(v[1]-1)).colwise().homogeneous() );
+						Normal bn(t_normal * (vec_Nor.at(v[i-1]-1)).colwise().homogeneous() );
+						Normal cn(t_normal * (vec_Nor.at(v[i]-1)).colwise().homogeneous() );
+						
+						p =  new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
+					}
+					else
+					{
+						Normal an(t_normal * (vec_Nor.at(vn[1]-1)).colwise().homogeneous() );
+						Normal bn(t_normal * (vec_Nor.at(vn[i-1]-1)).colwise().homogeneous() );
+						Normal cn(t_normal * (vec_Nor.at(vn[i]-1)).colwise().homogeneous() );
+						
+						p =  new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
+					}
+					plist.push_back(p);
+				}
+				
+
+
+
+
+
+
+				////this version support triangles only
+				//string s;
 				//std::istringstream ss1(split[1]);
-				//int v1;
-				//ss1 >> v1;
-				//ss1 >> c;
-				//ss1 >> c;	// '//'
-				//int vn1 = -1;
-				//if(c == '/')
-				//{
-				//	ss1 >> vn1;
-				//}
+				//getline(ss1, s, '/');
+				//int v1 = atoi(s.c_str());
+				//getline(ss1, s, '/');
+				//int vt1 = atoi(s.c_str());	//texture
+				//getline(ss1, s, '/');
+				//int vn1 = atoi(s.c_str());
 
 				//std::istringstream ss2(split[2]);
-				//int v2;
-				//ss2 >> v2;
-				//ss2 >> c;
-				//ss2 >> c;
-				//int vn2 = -1;
-				//if(c == '/')
-				//{
-				//	ss2 >> vn2;
-				//}
+				//getline(ss2, s, '/');
+				//int v2 = atoi(s.c_str());
+				//getline(ss2, s, '/');
+				//int vt2 = atoi(s.c_str());	//texture
+				//getline(ss2, s, '/');
+				//int vn2 = atoi(s.c_str());
 
 				//std::istringstream ss3(split[3]);
-				//int v3;
-				//ss3 >> v3;
-				//ss3 >> c;
-				//ss3 >> c;
-				//int vn3 = -1;
-				//if(c == '/')
+				//getline(ss3, s, '/');
+				//int v3 = atoi(s.c_str());
+				//getline(ss3, s, '/');
+				//int vt3 = atoi(s.c_str());	//texture
+				//getline(ss3, s, '/');
+				//int vn3 = atoi(s.c_str());
+
+
+
+				////TODO transformation
+				//Point pa(t * (vec_Vert.at(v1-1)).colwise().homogeneous());
+				//Point pb(t * (vec_Vert.at(v2-1)).colwise().homogeneous());
+				//Point pc(t * (vec_Vert.at(v3-1)).colwise().homogeneous());
+
+				//Primitive* p;
+				//if(vn1 == -1)
 				//{
-				//	ss3 >> vn3;
+				//	//no normal vector defined for each vertex
+				//	//p = new GeometricPrimitive (new Triangle(pa,pb,pc),mat);
+
+
+				//	
+				//	Normal an(t_normal * (vec_Nor.at(v1-1)).colwise().homogeneous() );
+				//	Normal bn(t_normal * (vec_Nor.at(v2-1)).colwise().homogeneous() );
+				//	Normal cn(t_normal * (vec_Nor.at(v3-1)).colwise().homogeneous() );
+
+				//	p =  new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
 				//}
-
-				
-				
-
-				//TODO transformation
-				Point pa(t * (vec_Vert.at(v1-1)).colwise().homogeneous());
-				Point pb(t * (vec_Vert.at(v2-1)).colwise().homogeneous());
-				Point pc(t * (vec_Vert.at(v3-1)).colwise().homogeneous());
-
-				Primitive* p;
-				if(vn1 == -1)
-				{
-					//no normal vector defined for each vertex
-					//p = new GeometricPrimitive (new Triangle(pa,pb,pc),mat);
-
-
-					
-					Normal an(t_normal * (vec_Nor.at(v1-1)).colwise().homogeneous() );
-					Normal bn(t_normal * (vec_Nor.at(v2-1)).colwise().homogeneous() );
-					Normal cn(t_normal * (vec_Nor.at(v3-1)).colwise().homogeneous() );
-
-					p =  new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
-				}
-				else
-				{
-					Normal an(t_normal * (vec_Nor.at(vn1-1)).colwise().homogeneous() );
-					Normal bn(t_normal * (vec_Nor.at(vn2-1)).colwise().homogeneous() );
-					Normal cn(t_normal * (vec_Nor.at(vn3-1)).colwise().homogeneous() );
-					p = new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
-				}
-				plist.push_back(p);
+				//else
+				//{
+				//	Normal an(t_normal * (vec_Nor.at(vn1-1)).colwise().homogeneous() );
+				//	Normal bn(t_normal * (vec_Nor.at(vn2-1)).colwise().homogeneous() );
+				//	Normal cn(t_normal * (vec_Nor.at(vn3-1)).colwise().homogeneous() );
+				//	p = new GeometricPrimitive (new Triangle(pa,pb,pc,an,bn,cn),mat);
+				//}
+				//plist.push_back(p);
 
 			}
 			else
