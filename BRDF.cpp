@@ -4,11 +4,14 @@
 
 BRDF::BRDF()
 	:shiniess(0)
+	,ni(1.0)
 {
 }
 
-BRDF::BRDF(const Color & a,const Color & d,const Color & s,float v,const Color & r)
+BRDF::BRDF(const Color & a,const Color & d,const Color & s,float v,const Color & r,const Color & t,float nnn  )
 	:ka(a),kd(d),ks(s),shiniess(v),kr(r)
+	,kt(t)
+	,ni(nnn)
 {
 }
 

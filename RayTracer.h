@@ -27,5 +27,6 @@ public:
 
 	void trace(Scene & scene, Ray & ray, Primitive * primitive, Color & color, int depth);
 	
-	Ray createReflectRay(LocalGeo & local,Ray & in_ray);
+	Ray createReflectionRay(LocalGeo & local,Ray & in_ray);
+	Ray createRefractionRay(LocalGeo & local,Ray & in_ray,float nt,bool & tir);	//total internal reflection
 };

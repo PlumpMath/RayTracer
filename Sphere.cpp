@@ -6,7 +6,7 @@
 
 
 Sphere::Sphere(const Point & center, float radius,const Transform<float,3,Affine> & tt)	//,const Transform<float,3,Affine> & scale_tt,const Transform<float,3,Affine> & translate_tt
-	:c(center),r(radius),t(tt.inverse()),t_normal(tt.linear().inverse().transpose())
+	:c(center),r(radius),t(tt.inverse()),t_normal(tt.linear().transpose())	
 {
 
 	Vector3f rr(r,r,r);
@@ -61,7 +61,7 @@ bool Sphere::intersect(const Ray & init_ray, float & t_hit, LocalGeo& local)
 			//Normal n(  tt.linear()*(p_sph - c) );
 
 
-			Normal n( t_normal * (p_sph - c) );
+			Normal n( t_normal * ((p_sph - c).normalized()) );
 
 			local = LocalGeo(p, n);
 
@@ -70,13 +70,20 @@ bool Sphere::intersect(const Ray & init_ray, float & t_hit, LocalGeo& local)
 			//return true;
 			return ray.isValidT(t_hit);
 		}
-		//inside
-		/*
 		else if(t_bigger > FLOAT_EPSILON)
 		{
+			//inside
 			t_hit = t_bigger;
+
+			Point p_sph(ray.getPosition(t_hit));	//sphere coordinate
+			Point p(init_ray.getPosition(t_hit));
+			Normal n( t_normal * ((p_sph - c).normalized()) );
+			local = LocalGeo(p, n);
+
+
+			return ray.isValidT(t_hit);
 		}
-		*/
+		
 		
 	}
 

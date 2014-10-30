@@ -3,13 +3,39 @@
 #include "Scene.h"
 
 
-Ray RayTracer::createReflectRay(LocalGeo & local,Ray & in_ray)
+Ray RayTracer::createReflectionRay(LocalGeo & local,Ray & in_ray)
 {
 	Vector3f n_reflect_dir = local.getReflectDirection(-in_ray.getDirection());
 
-	return Ray(Point(local.pos + MY_EPSILON * n_reflect_dir) ,n_reflect_dir);
+	return Ray(Point(local.pos + MY_EPSILON * n_reflect_dir) ,n_reflect_dir,in_ray.getNI());
 }
 
+Ray RayTracer::createRefractionRay(LocalGeo & local,Ray & in_ray,float nt,bool & tir)
+{
+	//bad trick
+	Vector3f in_ray_direction(in_ray.getDirection());
+	float c = local.n.dot(-in_ray_direction);
+	if(c<0)
+	{
+		//inside to outside
+		nt = 1;
+
+		local.n = Normal(-local.n);
+	}
+
+
+	float nn = in_ray.getNI() / nt;		// ni/nt	
+	Vector3f n_refract_dir = local.getRefractionDirection(-in_ray_direction,nn,tir);
+
+	if(!tir)
+	{
+		return Ray(Point(local.pos + MY_EPSILON * n_refract_dir) ,n_refract_dir, nt);
+	}
+	else
+	{
+		return Ray();	//this will not be used
+	}
+}
 
 
 
@@ -65,10 +91,8 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 			if (!primitive->intersectP(l_ray))
 			{
 				//no obstacle block
-				//TODO,need to ask scene for camera position
 				
-				//TODO the view has some problem
-				//Vector3f view = scene.getViewVector(in.local);
+				
 				Vector3f view = - ray.getDirection();
 				Color tmp_light_color( (*iter)->getLightColor(0) );
 				color += brdf.shading(in.local, l_ray, tmp_light_color,view );
@@ -91,12 +115,35 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 		//mirror reflection
 		if(brdf.kr.isPositive())
 		{
-			Ray reflectRay = createReflectRay(in.local,ray);
-
-
+			/*Ray reflectionRay = createReflectionRay(in.local,ray);
 			Color tmp_color;
-			trace(scene,reflectRay,primitive,tmp_color,depth+1);
-			color += brdf.kr.componentMulti(tmp_color);
+			trace(scene,reflectionRay,primitive,tmp_color,depth+1);
+			color += brdf.kr.componentMulti(tmp_color);*/
+			//if( in.local.n.dot(-ray.getDirection()) > 0 )
+			//{
+				Ray reflectionRay = createReflectionRay(in.local,ray);
+				Color tmp_color;
+				trace(scene,reflectionRay,primitive,tmp_color,depth+1);
+				color += brdf.kr.componentMulti(tmp_color);
+			//}
+		}
+
+
+
+		//refraction
+		//TODO
+		if(brdf.kt.isPositive())
+		{
+			bool tir = false;	//total internal reflection
+			Ray refractionRay = createRefractionRay(in.local,ray,brdf.ni,tir);
+
+			if(!tir)
+			{
+				Color tmp_color;
+				trace(scene,refractionRay,primitive,tmp_color,depth+1);
+				
+				color += brdf.kt.componentMulti(tmp_color);
+			}
 		}
 		
 }

@@ -267,14 +267,20 @@ void Scene::readFile(string & filename)
 				else if(type == "mat")
 				{
 					float kar, kag, kab, kdr, kdg, kdb, ksr, ksg, ksb, ksp, krr, krg, krb;	//material
+					float ktr=0,ktg=0,ktb=0;	//refraction(optional)
+					float kni=1;	//refraction index n	//glass 1.52
 					ss>> kar>> kag>> kab>> kdr>> kdg>> kdb
 						>> ksr>> ksg>> ksb>> ksp
 						>> krr>> krg>> krb;
 
+					ss >> ktr>>ktg>>ktb;
+					ss >> kni;
+
 					cur_mat = Material (BRDF(Color(kar,kag,kab)
 						,Color(kdr,kdg,kdb)
 						,Color(ksr,ksg,ksb),ksp
-						,Color(krr,krg,krb)));
+						,Color(krr,krg,krb)
+						,Color(ktr,ktg,ktb),kni) );
 				}
 				else if(type == "xft")
 				{

@@ -28,6 +28,8 @@ protected:
 	//t_min <= t <= t_max
 	float t_min;
 	float t_max;
+
+	float ni;
 public:
 
 	void buildInvDir()
@@ -36,14 +38,17 @@ public:
 		inv_dir = Vector3f(1.0/dir(0),1.0/dir(1),1.0/dir(2));
 	}
 
-	Ray():pos(),dir(1,0.0,0.0),t_min(0), t_max(MY_FLOAT_MAX)
+	Ray()
+		:pos(),dir(1,0.0,0.0),t_min(0), t_max(MY_FLOAT_MAX)
+		,ni(1.0)
 	{
 		buildInvDir();
 	}
 
-	Ray(const Point & position, const Vector3f & direction)
+	Ray(const Point & position, const Vector3f & direction,float nnn = 1.0)
 		:pos(position),dir(direction.normalized())
 		,t_min(0), t_max(MY_FLOAT_MAX)
+		,ni(nnn)	//refraction
 	{
 		//? direction normalize?
 		//dir.normalize();
@@ -63,6 +68,11 @@ public:
 		//cout<<"class Ray: getPosition exceptions!";
 		abort();
 		return Point(0,0,0);
+	}
+
+	float getNI()
+	{
+		return ni;
 	}
 
 	bool isValidT(float t)const
