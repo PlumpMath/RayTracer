@@ -39,6 +39,7 @@ Scene::Scene(const Camera & c, const Sampler & s, const RayTracer & r, const Fil
 	primitive = p;
 }
 
+
 Scene::~Scene()
 {
 	delete primitive;
@@ -69,6 +70,19 @@ Scene::~Scene()
 			}
 		}
 	}
+
+	{
+		vector<AreaLight*>::iterator iter;
+
+		for (iter = vec_area_light.begin();iter != vec_area_light.end();++iter)
+		{
+			if( (*iter) != NULL)
+			{
+				delete (*iter);
+				(*iter) = NULL;
+			}
+		}
+	}
 }
 
 
@@ -82,6 +96,10 @@ void Scene::addAmbientLight(AmbientLight * al)
 	vec_ambient_light.push_back(al);
 }
 
+void Scene::addAreaLight(AreaLight * al)
+{
+	vec_area_light.push_back(al);
+}
 
 //void Scene::LoopLight(LocalGeo& local)
 //{
@@ -149,11 +167,13 @@ void Scene::readFile(string & filename)
 	ifstream in;
 	in.open(filename);
 
-	
+	vector<Primitive*> plist;
 
 	if(in.is_open())
 	{
-		vector<Primitive*> plist;
+		
+
+
 		Material cur_mat;
 
 		Transform<float,3,Affine> t;
@@ -264,6 +284,33 @@ void Scene::readFile(string & filename)
 
 					addAmbientLight(new AmbientLight(Color(ar,ag,ab)));
 				}
+				else if(type == "ltarea")
+				{
+					//area light
+					float cx,cy,cz;
+					float ux,uy,uz;
+					float vx,vy,vz;
+					float ar, ag, ab;
+					int num_samples = 32;
+					int falloffType = 0;
+
+					ss>>cx>>cy>>cz;
+					ss>>ux>>uy>>uz;
+					ss>>vx>>vy>>vz;
+					ss>>ar>>ag>>ab;
+
+					ss>>num_samples;
+					ss>>falloffType;
+
+
+					addAreaLight(new AreaLight(
+						Point(cx,cy,cz)
+						,Vector3f(ux,uy,uz)
+						,Vector3f(vx,vy,vz)
+						,Color(ar,ag,ab)
+						,num_samples
+						,falloffType)  );
+				}
 				else if(type == "mat")
 				{
 					float kar, kag, kab, kdr, kdg, kdb, ksr, ksg, ksb, ksp, krr, krg, krb;	//material
@@ -327,7 +374,14 @@ void Scene::readFile(string & filename)
 					string objname;
 					ss>>objname;
 
-					readObjFile(objname,t,cur_mat,plist);
+					//readObjFile(objname,t,cur_mat,plist);
+
+					vector<Primitive*> sub_plist;
+					readObjFile(objname,t,cur_mat,sub_plist);
+					Primitive* sub_p = new AggregatePrimitiveKDNode(sub_plist,0);
+					plist.push_back(sub_p);
+					sub_p = NULL;
+
 				}
 				else if(type == "antialiasing")
 				{
@@ -355,6 +409,8 @@ void Scene::readFile(string & filename)
 	else
 	{
 		//fail to open file
+		cout<<"fail to open input file!\n";
+		abort();
 	}
 
 
@@ -384,6 +440,19 @@ void Scene::readObjFile(string & objname, Affine3f & t, Material & mat, vector<P
 	vector<Point> vec_Vert;
 	vector<Normal> vec_Nor;
 
+	int max_size_vert = vec_Vert.max_size();
+	int max_size_nor = vec_Nor.max_size();
+
+
+
+	//vector<Point>* p_vec_Vert = new vector<Point>();
+	//vector<Normal>* p_vec_Nor = new vector<Normal>();
+
+	//vector<Point>& vec_Vert = *p_vec_Vert;
+	//vector<Normal>& vec_Nor = *p_vec_Nor;
+
+
+
 	
 	ifstream file;
 	file.open(objname);
@@ -396,6 +465,8 @@ void Scene::readObjFile(string & objname, Affine3f & t, Material & mat, vector<P
 	{
 		string line;
 		while(file.good()) {
+			
+
 			std::vector<std::string> split;
 			std::string buf;
 			std::getline(file,line);
@@ -590,4 +661,7 @@ void Scene::readObjFile(string & objname, Affine3f & t, Material & mat, vector<P
 
 
 	file.close();
+
+	//delete p_vec_Nor;
+	//delete p_vec_Vert;
 }

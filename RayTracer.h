@@ -21,7 +21,7 @@ protected:
 public:
 
 	//TODO: Constructor
-	RayTracer(int depthMax = 5):depth_max(depthMax)
+	RayTracer(int depthMax = 3):depth_max(depthMax)
 	{
 	}
 

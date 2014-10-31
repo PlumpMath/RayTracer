@@ -24,6 +24,8 @@ protected:
 public:
 	//Constructor
 	//AggregatePrimitiveKDNode();
+	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
 	AggregatePrimitiveKDNode(vector<Primitive*> & list,int depth);
 	~AggregatePrimitiveKDNode();
 

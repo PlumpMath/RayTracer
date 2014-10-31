@@ -6,7 +6,7 @@
 
 
 Sphere::Sphere(const Point & center, float radius,const Transform<float,3,Affine> & tt)	//,const Transform<float,3,Affine> & scale_tt,const Transform<float,3,Affine> & translate_tt
-	:c(center),r(radius),t(tt.inverse()),t_normal(tt.linear().transpose())	
+	:c(center),r(radius),t(tt.inverse()),t_normal(tt.linear().inverse().transpose())
 {
 
 	Vector3f rr(r,r,r);
@@ -61,6 +61,7 @@ bool Sphere::intersect(const Ray & init_ray, float & t_hit, LocalGeo& local)
 			//Normal n(  tt.linear()*(p_sph - c) );
 
 
+			//Normal n( t_normal * ((p - c).normalized()) );
 			Normal n( t_normal * ((p_sph - c).normalized()) );
 
 			local = LocalGeo(p, n);

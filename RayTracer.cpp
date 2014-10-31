@@ -77,6 +77,48 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 
 
 
+		Vector3f view = - ray.getDirection();
+
+		{
+			//area light source (shadow ray)
+			vector<AreaLight*>& vec_light = scene.getAreaLight();
+			vector<AreaLight*>::iterator iter;
+
+			
+			for (iter = vec_light.begin();iter != vec_light.end();++iter)
+			{
+				Color sum_color(0,0,0);
+				vector<Ray> vec_ray( (*iter)->generateLightRay(in.local) );
+
+				
+				vector<Ray>::iterator it;
+				for (it = vec_ray.begin();it != vec_ray.end();++it)
+				{
+					// Check if the light is blocked or not
+					if (!primitive->intersectP(*it))
+					{
+						//no obstacle block
+						
+						Color tmp_light_color (  (*iter)->getLightColor(0) );
+						sum_color += brdf.shading(in.local, *it, tmp_light_color, view);
+					}
+					else
+					{
+						//this light doesn't hit it directly
+						//shade ambient only
+						Color tmp_light_color( (*iter)->getLightColor(0) );
+						sum_color += brdf.shadingOnlyAmbient(tmp_light_color);
+					}
+				}
+
+
+				color += sum_color*((*iter)->getRate());
+			}
+
+		}
+
+
+
 		//loop through all light source (shoot shadow rays)
 		vector<Light*>& vec_light = scene.getVecLight();
 
@@ -93,7 +135,7 @@ void RayTracer::trace(Scene & scene, Ray & ray, Primitive * primitive, Color & c
 				//no obstacle block
 				
 				
-				Vector3f view = - ray.getDirection();
+				//Vector3f view = - ray.getDirection();
 				Color tmp_light_color( (*iter)->getLightColor(0) );
 				color += brdf.shading(in.local, l_ray, tmp_light_color,view );
 			}

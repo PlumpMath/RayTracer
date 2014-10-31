@@ -9,6 +9,7 @@
 
 #include "Light.h"
 #include "AmbientLight.h"
+#include "AreaLight.h"
 
 #include "Material.h"
 
@@ -34,11 +35,13 @@ protected:
 
 	vector<Light*> vec_light;
 	vector<AmbientLight*> vec_ambient_light;
+	vector<AreaLight*> vec_area_light;
 
 	Primitive * primitive;
 
 	float pixel_length;
 public:
+	//EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 	//Scene(const Camera & c, const Sampler & s, const RayTracer & r, const Film & f, Primitive * p);
 	Scene(string & filename);
 	Scene(const Camera & c, const Sampler & s, const RayTracer & r, const Film & f, Primitive * p);
@@ -47,12 +50,13 @@ public:
 
 	void addLight(Light * light);
 	void addAmbientLight(AmbientLight * al);
-	
+	void addAreaLight(AreaLight * al);
 
 	//Vector3f getViewVector(LocalGeo & local);
 
 	vector<Light*>& getVecLight(){return vec_light;}
 	vector<AmbientLight*>& getAmbientLight(){return vec_ambient_light;}
+	vector<AreaLight*>& getAreaLight(){return vec_area_light;}
 	//void LoopLight(LocalGeo& local);
 
 	void render(const char * filename);
