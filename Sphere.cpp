@@ -64,6 +64,10 @@ bool Sphere::intersect(const Ray & init_ray, float & t_hit, LocalGeo& local)
 			//Normal n( t_normal * ((p - c).normalized()) );
 			Normal n( t_normal * ((p_sph - c).normalized()) );
 
+			//Normal n( t_normal * ((p-(t.inverse()*c)).normalized()) );
+
+			
+
 			local = LocalGeo(p, n);
 
 

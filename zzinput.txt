@@ -1,52 +1,40 @@
-cam 0 0 150 -70 -30 50 50 -30 50 -70 50 50 50 50 50 0.05
+cam 0 0 150 -50 -50 50 50 -50 50 -50 50 50 50 50 50 0.1
 
-antialiasing 4
+# antialiasing 4
 
-# ltarea 200 200 200 10 0 0 0 0 10 0.4 0.4 0.4 32
-# ltarea -200 200 200 10 0 0 0 0 10 0.4 0.4 0.4 32
+#ltarea 40 50 50 10 0 0 0 0 10 1 1 1 64
+#ltarea 200 200 200 10 0 0 0 0 10 0.4 0.4 0.4 32
+#ltarea -200 200 200 10 0 0 0 0 10 0.4 0.4 0.4 32
 
-ltp 200 200 200 0.5 0.5 0.5
-ltp -200 200 200 0.5 0.5 0.5
-#ltp 0 0 -100 0.2 0.2 0.2
-
-xft -20 -20 0
-xfr 15 0 0
-mat 0 0 0.1 0 0 0.5 0.2 0.2 0.6 16 0.7 0.7 0.7
-obj MechEmpireOBJ/ground.obj
-
-mat 0.1 0.1 0.1 0.8 0.7 0.9 1 1 1 16 0 0 0
-obj MechEmpireOBJ/shuttle0.obj
-
-mat 0.1 0.1 0 0.6 0.1 0 1 1 1 16 0 0 0
-obj MechEmpireOBJ/ufo0.obj
-obj MechEmpireOBJ/ufo1.obj
-obj MechEmpireOBJ/ufo2.obj
-obj MechEmpireOBJ/ufo3.obj
+ltp 200 200 200 0.4 0.4 0.4
+ltp -200 200 200 0.4 0.4 0.4
+# ltp 0 0 100 0.4 0.4 0.4
 
 
-mat 0.1 0 0 0.3 0 0 1 0 0 16 0 0 0
-obj MechEmpireOBJ/spider0_body.obj
-obj MechEmpireOBJ/spider0_gun.obj
-obj MechEmpireOBJ/spider1.obj
-obj MechEmpireOBJ/spider2.obj
-obj MechEmpireOBJ/spider3.obj
-obj MechEmpireOBJ/spider4.obj
+xft 0 -50 -100
+#ball
+#mat 0.1 0.1 0.1 0.1 0.7 0.2 1 1 1 16 0.8 0.8 0.8
+#sph 60 50 -80 40
+# right wall
+mat 0.1 0 0 1 0 0 0.8 0.8 0.8 16 0.7 0.7 0.7
+tri 0 0 0 100 0 100 0 200 0
+tri 0 200 0 100 200 100 100 0 100 
+# left wall
+mat 0 0.1 0 0 1 0 0.8 0.8 0.8 16 0.7 0.7 0.7
+#tri 0 0 0 0 200 0 -100 0 100
+#tri 0 200 0 -100 200 100 -100 0 100
+# bottom wall
+mat 0 0 0.1 0 0 1 0.8 0.8 0.8 16 0.7 0.7 0.7
+tri -9999 0 -9999 -100 0 100 100 0 100
+tri -9999 0 -9999 9999 0 -9999 100 0 100
+tri -100 0 100 100 0 100 0 0 200
 
 
-mat 0.1 0.1 0 0.3 0.4 0 1 0 0 16 0 0 0
-obj MechEmpireOBJ/spider5.obj
-obj MechEmpireOBJ/spider6.obj
+xfz
+xft 0 -40 0
+xfs 6 6 6
+xfr 0 30 0
+#mat 0.1 0.1 0.1 0.8 0.3 0 1 1 1 16 0.2 0.7 0.9 0.8 0.3 0.1 1.52
+mat 0.1 0.1 0.1 0.8 0.3 0 1 1 1 16 0.2 0.7 0.9
+obj dragon.obj
 
-
-
-mat 0.1 0.1 0.1 0 0.7 0.7 1 1 1 16 0 0 0
-obj MechEmpireOBJ/tank0.obj
-obj MechEmpireOBJ/tank1.obj
-
-
-mat 0.1 0.1 0.1 0.3 0.3 0.6 1 1 1 16 0 0 0
-obj MechEmpireOBJ/destroyer0.obj
-obj MechEmpireOBJ/destroyer1.obj
-obj MechEmpireOBJ/destroyer2.obj
-obj MechEmpireOBJ/destroyer3.obj
-obj MechEmpireOBJ/destroyer4.obj

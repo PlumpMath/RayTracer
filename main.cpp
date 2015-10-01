@@ -37,8 +37,8 @@ int main(int argc, char * argv[])
 	Scene scene(filename);
 
 
-
-	scene.render("test.png");
+	string output_filename = argv[2];
+	scene.render(output_filename.c_str());
 
 
 	cout<<"\n"<<"deconstructing...\n";
